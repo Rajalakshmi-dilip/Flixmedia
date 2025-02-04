@@ -1,0 +1,870 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Flix Media Automation Report</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+                background-color: #f5f5f5;
+            }
+            .report-container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            .summary-section {
+                background: white;
+                border-radius: 8px;
+                padding: 20px;
+                margin-bottom: 20px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .summary-stats {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 20px;
+                margin-top: 15px;
+            }
+            .stat-card {
+                background: #f8f9fa;
+                padding: 15px;
+                border-radius: 6px;
+                text-align: center;
+            }
+            .stat-number {
+                font-size: 24px;
+                font-weight: bold;
+                margin: 10px 0;
+            }
+            .filters {
+                margin: 20px 0;
+                display: flex;
+                gap: 15px;
+                align-items: center;
+            }
+            .filter-select {
+                padding: 8px;
+                border-radius: 4px;
+                border: 1px solid #ddd;
+            }
+            .result-card {
+                background: white;
+                border-radius: 8px;
+                padding: 20px;
+                margin-bottom: 20px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .result-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 15px;
+            }
+            .status-badge {
+                padding: 5px 10px;
+                border-radius: 4px;
+                font-weight: bold;
+            }
+            .status-hit { background-color: #4CAF50; color: white; }
+            .status-miss { background-color: #f44336; color: white; }
+            .status-error { background-color: #ff9800; color: white; }
+            .status-no-mpn-found { background-color: #2A254B; color: white; }
+            .result-details {
+                display: grid;
+                grid-template-columns: 100px 1fr;
+                gap: 10px;
+                margin-bottom: 20px;
+            }
+            .label {
+                font-weight: bold;
+                color: #666;
+            }
+            .value {
+                word-break: break-all;
+            }
+            .value a {
+                color: #2196F3;
+                text-decoration: none;
+            }
+            .screenshots-container {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+            }
+            .screenshot {
+                max-width: 100%;
+                height: auto;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+            h3 {
+                margin: 10px 0;
+                color: #333;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="report-container">
+            <div class="summary-section">
+                <h1>Test Results Report</h1>
+                <div class="summary-stats">
+                    <div class="stat-card">
+                        <div>Total URLs</div>
+                        <div class="stat-number">17</div>
+                    </div>
+                    <div class="stat-card">
+                        <div>Hits</div>
+                        <div class="stat-number">5</div>
+                    </div>
+                    <div class="stat-card">
+                        <div>Misses</div>
+                        <div class="stat-number">5</div>
+                    </div>
+                    <div class="stat-card">
+                        <div>No MPN's Found</div>
+                        <div class="stat-number">5</div>
+                    </div>
+                    <div class="stat-card">
+                        <div>Errors</div>
+                        <div class="stat-number">2</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="filters">
+                <label>Filter by Status:</label>
+                <select id="statusFilter" class="filter-select">
+                    <option value="all">All</option>
+                    <option value="hit">Hits</option>
+                    <option value="miss">Misses</option>
+                    <option value="no mpn found">No MPN's Found</option>
+                    <option value="error">Errors</option>
+                </select>
+            </div>
+
+            <div id="results-container">
+                
+                    <div class="result-card" data-status="miss">
+                        <div class="result-header">
+                            <h2>URL #1</h2>
+                            <span class="status-badge status-miss">Miss</span>
+                        </div>
+                        <div class="result-details">
+                            <div class="label">URL:</div>
+                            <div class="value"><a href="https://www.cdiscount.com/electromenager/lave-vaisselle/lave-vaisselle-60-cm-sharp-qwna1ff45di-16-couverts/f-11025-sha1700610288719.html" target="_blank">https://www.cdiscount.com/electromenager/lave-vaisselle/lave-vaisselle-60-cm-sharp-qwna1ff45di-16-couverts/f-11025-sha1700610288719.html</a></div>
+                            <div class="label">MPN:</div>
+                            <div class="value">SHA1700610288719</div>
+                            <div class="label">FLIX360MPNs:</div>
+                            <div class="value">None found</div>
+                            <div class="label">Language:</div>
+                            <div class="value">fr</div>
+                            <div class="label">Details:</div>
+                            <div class="value">No matches found in API</div>
+                        </div>
+                        <div class="screenshots-container">
+                            
+                                <div class="screenshot-section">
+                                    <h3>Initial Load Screenshot:</h3>
+                                    <img class="screenshot"
+                                        src="././tests/screenshots/initial_1.png"
+                                        alt="Initial Load Screenshot"
+                                        onclick="window.open(this.src)"
+                                    >
+                                </div>
+                            
+                            
+                                <div class="screenshot-section">
+                                    <h3>Final Page Screenshot:</h3>
+                                    <img class="screenshot"
+                                        src="././tests/screenshots/final_1.png"
+                                        alt="Final Page Screenshot"
+                                        onclick="window.open(this.src)"
+                                    >
+                                </div>
+                            
+                        </div>
+                    </div>
+                
+                    <div class="result-card" data-status="miss">
+                        <div class="result-header">
+                            <h2>URL #2</h2>
+                            <span class="status-badge status-miss">Miss</span>
+                        </div>
+                        <div class="result-details">
+                            <div class="label">URL:</div>
+                            <div class="value"><a href="https://www.cdiscount.com/electromenager/lave-vaisselle/lave-vaisselle-60-cm-sharp-qwna1ff45dw-16-couverts/f-11025-sha1700610398437.html" target="_blank">https://www.cdiscount.com/electromenager/lave-vaisselle/lave-vaisselle-60-cm-sharp-qwna1ff45dw-16-couverts/f-11025-sha1700610398437.html</a></div>
+                            <div class="label">MPN:</div>
+                            <div class="value">SHA1700610398437</div>
+                            <div class="label">FLIX360MPNs:</div>
+                            <div class="value">None found</div>
+                            <div class="label">Language:</div>
+                            <div class="value">fr</div>
+                            <div class="label">Details:</div>
+                            <div class="value">No matches found in API</div>
+                        </div>
+                        <div class="screenshots-container">
+                            
+                                <div class="screenshot-section">
+                                    <h3>Initial Load Screenshot:</h3>
+                                    <img class="screenshot"
+                                        src="././tests/screenshots/initial_2.png"
+                                        alt="Initial Load Screenshot"
+                                        onclick="window.open(this.src)"
+                                    >
+                                </div>
+                            
+                            
+                                <div class="screenshot-section">
+                                    <h3>Final Page Screenshot:</h3>
+                                    <img class="screenshot"
+                                        src="././tests/screenshots/final_2.png"
+                                        alt="Final Page Screenshot"
+                                        onclick="window.open(this.src)"
+                                    >
+                                </div>
+                            
+                        </div>
+                    </div>
+                
+                    <div class="result-card" data-status="miss">
+                        <div class="result-header">
+                            <h2>URL #3</h2>
+                            <span class="status-badge status-miss">Miss</span>
+                        </div>
+                        <div class="result-details">
+                            <div class="label">URL:</div>
+                            <div class="value"><a href="https://www.cdiscount.com/electromenager/lave-vaisselle/lave-vaisselle-tout-integrable-60-cm-qw-ni14i47ex/f-11025-sha4974019180878.html" target="_blank">https://www.cdiscount.com/electromenager/lave-vaisselle/lave-vaisselle-tout-integrable-60-cm-qw-ni14i47ex/f-11025-sha4974019180878.html</a></div>
+                            <div class="label">MPN:</div>
+                            <div class="value">SHA4974019180878</div>
+                            <div class="label">FLIX360MPNs:</div>
+                            <div class="value">None found</div>
+                            <div class="label">Language:</div>
+                            <div class="value">fr</div>
+                            <div class="label">Details:</div>
+                            <div class="value">No matches found in API</div>
+                        </div>
+                        <div class="screenshots-container">
+                            
+                                <div class="screenshot-section">
+                                    <h3>Initial Load Screenshot:</h3>
+                                    <img class="screenshot"
+                                        src="././tests/screenshots/initial_3.png"
+                                        alt="Initial Load Screenshot"
+                                        onclick="window.open(this.src)"
+                                    >
+                                </div>
+                            
+                            
+                                <div class="screenshot-section">
+                                    <h3>Final Page Screenshot:</h3>
+                                    <img class="screenshot"
+                                        src="././tests/screenshots/final_3.png"
+                                        alt="Final Page Screenshot"
+                                        onclick="window.open(this.src)"
+                                    >
+                                </div>
+                            
+                        </div>
+                    </div>
+                
+                    <div class="result-card" data-status="miss">
+                        <div class="result-header">
+                            <h2>URL #4</h2>
+                            <span class="status-badge status-miss">Miss</span>
+                        </div>
+                        <div class="result-details">
+                            <div class="label">URL:</div>
+                            <div class="value"><a href="https://www.cdiscount.com/electromenager/lavage-sechage/sharp-lave-linge-encastrable-esnib714bwna-7-kgs/f-1100104-sha1720913754480.html" target="_blank">https://www.cdiscount.com/electromenager/lavage-sechage/sharp-lave-linge-encastrable-esnib714bwna-7-kgs/f-1100104-sha1720913754480.html</a></div>
+                            <div class="label">MPN:</div>
+                            <div class="value">SHA1720913754480</div>
+                            <div class="label">FLIX360MPNs:</div>
+                            <div class="value">None found</div>
+                            <div class="label">Language:</div>
+                            <div class="value">fr</div>
+                            <div class="label">Details:</div>
+                            <div class="value">No matches found in API</div>
+                        </div>
+                        <div class="screenshots-container">
+                            
+                                <div class="screenshot-section">
+                                    <h3>Initial Load Screenshot:</h3>
+                                    <img class="screenshot"
+                                        src="././tests/screenshots/initial_4.png"
+                                        alt="Initial Load Screenshot"
+                                        onclick="window.open(this.src)"
+                                    >
+                                </div>
+                            
+                            
+                                <div class="screenshot-section">
+                                    <h3>Final Page Screenshot:</h3>
+                                    <img class="screenshot"
+                                        src="././tests/screenshots/final_4.png"
+                                        alt="Final Page Screenshot"
+                                        onclick="window.open(this.src)"
+                                    >
+                                </div>
+                            
+                        </div>
+                    </div>
+                
+                    <div class="result-card" data-status="miss">
+                        <div class="result-header">
+                            <h2>URL #5</h2>
+                            <span class="status-badge status-miss">Miss</span>
+                        </div>
+                        <div class="result-details">
+                            <div class="label">URL:</div>
+                            <div class="value"><a href="https://www.cdiscount.com/electromenager/lavage-sechage/lave-linge-frontal-sharp-eshfh814awc/f-1100104-sha4974019164687.html" target="_blank">https://www.cdiscount.com/electromenager/lavage-sechage/lave-linge-frontal-sharp-eshfh814awc/f-1100104-sha4974019164687.html</a></div>
+                            <div class="label">MPN:</div>
+                            <div class="value">SHA4974019164687</div>
+                            <div class="label">FLIX360MPNs:</div>
+                            <div class="value">None found</div>
+                            <div class="label">Language:</div>
+                            <div class="value">fr</div>
+                            <div class="label">Details:</div>
+                            <div class="value">No matches found in API</div>
+                        </div>
+                        <div class="screenshots-container">
+                            
+                                <div class="screenshot-section">
+                                    <h3>Initial Load Screenshot:</h3>
+                                    <img class="screenshot"
+                                        src="././tests/screenshots/initial_5.png"
+                                        alt="Initial Load Screenshot"
+                                        onclick="window.open(this.src)"
+                                    >
+                                </div>
+                            
+                            
+                                <div class="screenshot-section">
+                                    <h3>Final Page Screenshot:</h3>
+                                    <img class="screenshot"
+                                        src="././tests/screenshots/final_5.png"
+                                        alt="Final Page Screenshot"
+                                        onclick="window.open(this.src)"
+                                    >
+                                </div>
+                            
+                        </div>
+                    </div>
+                
+                    <div class="result-card" data-status="hit">
+                        <div class="result-header">
+                            <h2>URL #6</h2>
+                            <span class="status-badge status-hit">Hit</span>
+                        </div>
+                        <div class="result-details">
+                            <div class="label">URL:</div>
+                            <div class="value"><a href="https://www.cdiscount.com/electromenager/petits-appareils-de-cuisson/sharp-yc-pc284ae-s-micro-ondes-argent-900-w/f-110200108-sha4974019212609.html" target="_blank">https://www.cdiscount.com/electromenager/petits-appareils-de-cuisson/sharp-yc-pc284ae-s-micro-ondes-argent-900-w/f-110200108-sha4974019212609.html</a></div>
+                            <div class="label">MPN:</div>
+                            <div class="value">YC-PC284AE-S</div>
+                            <div class="label">FLIX360MPNs:</div>
+                            <div class="value">A3R784PJES, YC-PG284AE-S, YCPG284AES, YC-MA262AE-B, YCMA262AEB, YC-MA262AU-B, YCMA262AUB, YC-GC52FE-B, YCGC52FEB, YC-GC52FU-B, YCGC52FUB, YC-GG02E-B, YCGG02EB, YC-GG02U-B, YCGG02UB, YC-GS01E-B, YCGS01EB, YC-GS01U-B, YCGS01UB, YC-GC52BE-B, YCGC52BEB</div>
+                            <div class="label">Language:</div>
+                            <div class="value">fr</div>
+                            <div class="label">Details:</div>
+                            <div class="value">Match found: A3R784PJES, YC-PG284AE-S, YCPG284AES</div>
+                        </div>
+                        <div class="screenshots-container">
+                            
+                                <div class="screenshot-section">
+                                    <h3>Initial Load Screenshot:</h3>
+                                    <img class="screenshot"
+                                        src="././tests/screenshots/initial_6.png"
+                                        alt="Initial Load Screenshot"
+                                        onclick="window.open(this.src)"
+                                    >
+                                </div>
+                            
+                            
+                                <div class="screenshot-section">
+                                    <h3>Final Page Screenshot:</h3>
+                                    <img class="screenshot"
+                                        src="././tests/screenshots/final_6.png"
+                                        alt="Final Page Screenshot"
+                                        onclick="window.open(this.src)"
+                                    >
+                                </div>
+                            
+                        </div>
+                    </div>
+                
+                    <div class="result-card" data-status="hit">
+                        <div class="result-header">
+                            <h2>URL #7</h2>
+                            <span class="status-badge status-hit">Hit</span>
+                        </div>
+                        <div class="result-details">
+                            <div class="label">URL:</div>
+                            <div class="value"><a href="https://www.abenson.com/samsung-galaxy-s24-plus-12gb-256gb-amber-yellow.html" target="_blank">https://www.abenson.com/samsung-galaxy-s24-plus-12gb-256gb-amber-yellow.html</a></div>
+                            <div class="label">MPN:</div>
+                            <div class="value">SM-S926BZYBPHL</div>
+                            <div class="label">FLIX360MPNs:</div>
+                            <div class="value">SM-S926BZYBPHL, SMS926BZYBPHL, SM-S926BZOBPHL, SMS926BZOBPHL, SM-S926BZVBPHL, SMS926BZVBPHL, SM-S926BZABPHL, SMS926BZABPHL, SM-S926BZKBPHL, SMS926BZKBPHL, SM-S926BZYCPHL, SMS926BZYCPHL, SM-S916BZEBPHL, SMS916BZEBPHL, SM-S916BZGBPHL, SMS916BZGBPHL, SM-S916BZKBPHL, SMS916BZKBPHL, SM-S928BZYCPHL, SMS928BZYCPHL</div>
+                            <div class="label">Language:</div>
+                            <div class="value">e5</div>
+                            <div class="label">Details:</div>
+                            <div class="value">Match found: SM-S926BZYBPHL, SMS926BZYBPHL</div>
+                        </div>
+                        <div class="screenshots-container">
+                            
+                                <div class="screenshot-section">
+                                    <h3>Initial Load Screenshot:</h3>
+                                    <img class="screenshot"
+                                        src="././tests/screenshots/initial_7.png"
+                                        alt="Initial Load Screenshot"
+                                        onclick="window.open(this.src)"
+                                    >
+                                </div>
+                            
+                            
+                                <div class="screenshot-section">
+                                    <h3>Final Page Screenshot:</h3>
+                                    <img class="screenshot"
+                                        src="././tests/screenshots/final_7.png"
+                                        alt="Final Page Screenshot"
+                                        onclick="window.open(this.src)"
+                                    >
+                                </div>
+                            
+                        </div>
+                    </div>
+                
+                    <div class="result-card" data-status="hit">
+                        <div class="result-header">
+                            <h2>URL #8</h2>
+                            <span class="status-badge status-hit">Hit</span>
+                        </div>
+                        <div class="result-details">
+                            <div class="label">URL:</div>
+                            <div class="value"><a href="https://www.abenson.com/samsung-galaxy-s24-plus-12gb-512gb-amber-yellow.html" target="_blank">https://www.abenson.com/samsung-galaxy-s24-plus-12gb-512gb-amber-yellow.html</a></div>
+                            <div class="label">MPN:</div>
+                            <div class="value">SM-S926BZYCPHL</div>
+                            <div class="label">FLIX360MPNs:</div>
+                            <div class="value">SM-S926BZYCPHL, SMS926BZYCPHL, SM-S928BZYCPHL, SMS928BZYCPHL, SM-S926BZOCPHL, SMS926BZOCPHL, SM-S926BZKCPHL, SMS926BZKCPHL, SM-S921BZYCPHL, SMS921BZYCPHL, SM-S926BZVCPHL, SMS926BZVCPHL, SM-S926BZACPHL, SMS926BZACPHL, SM-S926BZYBPHL, SMS926BZYBPHL, SM-S916BZECPHL, SMS916BZECPHL, SM-S916BZGCPHL, SMS916BZGCPHL</div>
+                            <div class="label">Language:</div>
+                            <div class="value">e5</div>
+                            <div class="label">Details:</div>
+                            <div class="value">Match found: SM-S926BZYCPHL, SMS926BZYCPHL</div>
+                        </div>
+                        <div class="screenshots-container">
+                            
+                                <div class="screenshot-section">
+                                    <h3>Initial Load Screenshot:</h3>
+                                    <img class="screenshot"
+                                        src="././tests/screenshots/initial_8.png"
+                                        alt="Initial Load Screenshot"
+                                        onclick="window.open(this.src)"
+                                    >
+                                </div>
+                            
+                            
+                                <div class="screenshot-section">
+                                    <h3>Final Page Screenshot:</h3>
+                                    <img class="screenshot"
+                                        src="././tests/screenshots/final_8.png"
+                                        alt="Final Page Screenshot"
+                                        onclick="window.open(this.src)"
+                                    >
+                                </div>
+                            
+                        </div>
+                    </div>
+                
+                    <div class="result-card" data-status="hit">
+                        <div class="result-header">
+                            <h2>URL #9</h2>
+                            <span class="status-badge status-hit">Hit</span>
+                        </div>
+                        <div class="result-details">
+                            <div class="label">URL:</div>
+                            <div class="value"><a href="https://www.abenson.com/samsung-galaxy-s24-ultra-12gb-1tb-titanium-blue.html" target="_blank">https://www.abenson.com/samsung-galaxy-s24-ultra-12gb-1tb-titanium-blue.html</a></div>
+                            <div class="label">MPN:</div>
+                            <div class="value">SM-S928BLBWPHL</div>
+                            <div class="label">FLIX360MPNs:</div>
+                            <div class="value">SM-S928BLBWPHL, SMS928BLBWPHL, SM-S928BLBCPHL, SMS928BLBCPHL, SM-S928BLBQPHL, SMS928BLBQPHL, SM-S928BLGWPHL, SMS928BLGWPHL, SM-S928BZKWPHL, SMS928BZKWPHL, SM-S928BZTWPHL, SMS928BZTWPHL, SM-S928BZYWPHL, SMS928BZYWPHL, SM-S928BZVWPHL, SMS928BZVWPHL, SM-S926BLBBPHL, SMS926BLBBPHL, SM-S926BLBCPHL, SMS926BLBCPHL</div>
+                            <div class="label">Language:</div>
+                            <div class="value">e5</div>
+                            <div class="label">Details:</div>
+                            <div class="value">Match found: SM-S928BLBWPHL, SMS928BLBWPHL</div>
+                        </div>
+                        <div class="screenshots-container">
+                            
+                                <div class="screenshot-section">
+                                    <h3>Initial Load Screenshot:</h3>
+                                    <img class="screenshot"
+                                        src="././tests/screenshots/initial_9.png"
+                                        alt="Initial Load Screenshot"
+                                        onclick="window.open(this.src)"
+                                    >
+                                </div>
+                            
+                            
+                                <div class="screenshot-section">
+                                    <h3>Final Page Screenshot:</h3>
+                                    <img class="screenshot"
+                                        src="././tests/screenshots/final_9.png"
+                                        alt="Final Page Screenshot"
+                                        onclick="window.open(this.src)"
+                                    >
+                                </div>
+                            
+                        </div>
+                    </div>
+                
+                    <div class="result-card" data-status="hit">
+                        <div class="result-header">
+                            <h2>URL #10</h2>
+                            <span class="status-badge status-hit">Hit</span>
+                        </div>
+                        <div class="result-details">
+                            <div class="label">URL:</div>
+                            <div class="value"><a href="https://www.abenson.com/samsung-galaxy-s24-ultra-12gb-256gb-titanium-black.html" target="_blank">https://www.abenson.com/samsung-galaxy-s24-ultra-12gb-256gb-titanium-black.html</a></div>
+                            <div class="label">MPN:</div>
+                            <div class="value">SM-S928BZKCPHL</div>
+                            <div class="label">FLIX360MPNs:</div>
+                            <div class="value">SM-S928BZKCPHL, SMS928BZKCPHL, SM-S918BZKCPHL, SMS918BZKCPHL, SM-S928BZKQPHL, SMS928BZKQPHL, SM-S928BZKWPHL, SMS928BZKWPHL, SM-S928BZTCPHL, SMS928BZTCPHL, SM-S928BZYCPHL, SMS928BZYCPHL, SM-S928BZVCPHL, SMS928BZVCPHL, SM-S921BZKCPHL, SMS921BZKCPHL, SM-S926BZKCPHL, SMS926BZKCPHL, SM-S928BZOCPHL, SMS928BZOCPHL</div>
+                            <div class="label">Language:</div>
+                            <div class="value">e5</div>
+                            <div class="label">Details:</div>
+                            <div class="value">Match found: SM-S928BZKCPHL, SMS928BZKCPHL</div>
+                        </div>
+                        <div class="screenshots-container">
+                            
+                                <div class="screenshot-section">
+                                    <h3>Initial Load Screenshot:</h3>
+                                    <img class="screenshot"
+                                        src="././tests/screenshots/initial_10.png"
+                                        alt="Initial Load Screenshot"
+                                        onclick="window.open(this.src)"
+                                    >
+                                </div>
+                            
+                            
+                                <div class="screenshot-section">
+                                    <h3>Final Page Screenshot:</h3>
+                                    <img class="screenshot"
+                                        src="././tests/screenshots/final_10.png"
+                                        alt="Final Page Screenshot"
+                                        onclick="window.open(this.src)"
+                                    >
+                                </div>
+                            
+                        </div>
+                    </div>
+                
+                    <div class="result-card" data-status="no mpn found">
+                        <div class="result-header">
+                            <h2>URL #11</h2>
+                            <span class="status-badge status-no-mpn-found">No MPN Found</span>
+                        </div>
+                        <div class="result-details">
+                            <div class="label">URL:</div>
+                            <div class="value"><a href="https://www.worten.pt/informatica-e-acessorios/acessorios-pc/mais-acessorios-pc/carregadores-de-pc" target="_blank">https://www.worten.pt/informatica-e-acessorios/acessorios-pc/mais-acessorios-pc/carregadores-de-pc</a></div>
+                            <div class="label">MPN:</div>
+                            <div class="value">N/A</div>
+                            <div class="label">FLIX360MPNs:</div>
+                            <div class="value">None found</div>
+                            <div class="label">Language:</div>
+                            <div class="value">en-US</div>
+                            <div class="label">Details:</div>
+                            <div class="value">No MPN is found </div>
+                        </div>
+                        <div class="screenshots-container">
+                            
+                                <div class="screenshot-section">
+                                    <h3>Initial Load Screenshot:</h3>
+                                    <img class="screenshot"
+                                        src="././tests/screenshots/initial_11.png"
+                                        alt="Initial Load Screenshot"
+                                        onclick="window.open(this.src)"
+                                    >
+                                </div>
+                            
+                            
+                                <div class="screenshot-section">
+                                    <h3>Final Page Screenshot:</h3>
+                                    <img class="screenshot"
+                                        src="././tests/screenshots/final_11.png"
+                                        alt="Final Page Screenshot"
+                                        onclick="window.open(this.src)"
+                                    >
+                                </div>
+                            
+                        </div>
+                    </div>
+                
+                    <div class="result-card" data-status="no mpn found">
+                        <div class="result-header">
+                            <h2>URL #12</h2>
+                            <span class="status-badge status-no-mpn-found">No MPN Found</span>
+                        </div>
+                        <div class="result-details">
+                            <div class="label">URL:</div>
+                            <div class="value"><a href="https://www.worten.pt/informatica-e-acessorios/computadores/computadores-portateis" target="_blank">https://www.worten.pt/informatica-e-acessorios/computadores/computadores-portateis</a></div>
+                            <div class="label">MPN:</div>
+                            <div class="value">N/A</div>
+                            <div class="label">FLIX360MPNs:</div>
+                            <div class="value">None found</div>
+                            <div class="label">Language:</div>
+                            <div class="value">en-US</div>
+                            <div class="label">Details:</div>
+                            <div class="value">No MPN is found </div>
+                        </div>
+                        <div class="screenshots-container">
+                            
+                                <div class="screenshot-section">
+                                    <h3>Initial Load Screenshot:</h3>
+                                    <img class="screenshot"
+                                        src="././tests/screenshots/initial_12.png"
+                                        alt="Initial Load Screenshot"
+                                        onclick="window.open(this.src)"
+                                    >
+                                </div>
+                            
+                            
+                                <div class="screenshot-section">
+                                    <h3>Final Page Screenshot:</h3>
+                                    <img class="screenshot"
+                                        src="././tests/screenshots/final_12.png"
+                                        alt="Final Page Screenshot"
+                                        onclick="window.open(this.src)"
+                                    >
+                                </div>
+                            
+                        </div>
+                    </div>
+                
+                    <div class="result-card" data-status="no mpn found">
+                        <div class="result-header">
+                            <h2>URL #13</h2>
+                            <span class="status-badge status-no-mpn-found">No MPN Found</span>
+                        </div>
+                        <div class="result-details">
+                            <div class="label">URL:</div>
+                            <div class="value"><a href="https://www.worten.pt/informatica-e-acessorios/computadores/computadores-portateis/f/marca/ASUS" target="_blank">https://www.worten.pt/informatica-e-acessorios/computadores/computadores-portateis/f/marca/ASUS</a></div>
+                            <div class="label">MPN:</div>
+                            <div class="value">N/A</div>
+                            <div class="label">FLIX360MPNs:</div>
+                            <div class="value">None found</div>
+                            <div class="label">Language:</div>
+                            <div class="value">en-US</div>
+                            <div class="label">Details:</div>
+                            <div class="value">No MPN is found </div>
+                        </div>
+                        <div class="screenshots-container">
+                            
+                                <div class="screenshot-section">
+                                    <h3>Initial Load Screenshot:</h3>
+                                    <img class="screenshot"
+                                        src="././tests/screenshots/initial_13.png"
+                                        alt="Initial Load Screenshot"
+                                        onclick="window.open(this.src)"
+                                    >
+                                </div>
+                            
+                            
+                                <div class="screenshot-section">
+                                    <h3>Final Page Screenshot:</h3>
+                                    <img class="screenshot"
+                                        src="././tests/screenshots/final_13.png"
+                                        alt="Final Page Screenshot"
+                                        onclick="window.open(this.src)"
+                                    >
+                                </div>
+                            
+                        </div>
+                    </div>
+                
+                    <div class="result-card" data-status="no mpn found">
+                        <div class="result-header">
+                            <h2>URL #14</h2>
+                            <span class="status-badge status-no-mpn-found">No MPN Found</span>
+                        </div>
+                        <div class="result-details">
+                            <div class="label">URL:</div>
+                            <div class="value"><a href="https://www.worten.pt/informatica-e-acessorios/computadores/computadores-portateis" target="_blank">https://www.worten.pt/informatica-e-acessorios/computadores/computadores-portateis</a></div>
+                            <div class="label">MPN:</div>
+                            <div class="value">N/A</div>
+                            <div class="label">FLIX360MPNs:</div>
+                            <div class="value">None found</div>
+                            <div class="label">Language:</div>
+                            <div class="value">en-US</div>
+                            <div class="label">Details:</div>
+                            <div class="value">No MPN is found </div>
+                        </div>
+                        <div class="screenshots-container">
+                            
+                                <div class="screenshot-section">
+                                    <h3>Initial Load Screenshot:</h3>
+                                    <img class="screenshot"
+                                        src="././tests/screenshots/initial_14.png"
+                                        alt="Initial Load Screenshot"
+                                        onclick="window.open(this.src)"
+                                    >
+                                </div>
+                            
+                            
+                                <div class="screenshot-section">
+                                    <h3>Final Page Screenshot:</h3>
+                                    <img class="screenshot"
+                                        src="././tests/screenshots/final_14.png"
+                                        alt="Final Page Screenshot"
+                                        onclick="window.open(this.src)"
+                                    >
+                                </div>
+                            
+                        </div>
+                    </div>
+                
+                    <div class="result-card" data-status="no mpn found">
+                        <div class="result-header">
+                            <h2>URL #15</h2>
+                            <span class="status-badge status-no-mpn-found">No MPN Found</span>
+                        </div>
+                        <div class="result-details">
+                            <div class="label">URL:</div>
+                            <div class="value"><a href="https://www.worten.pt/informatica-e-acessorios/computadores/computadores-portateis/f/marca/ASUS" target="_blank">https://www.worten.pt/informatica-e-acessorios/computadores/computadores-portateis/f/marca/ASUS</a></div>
+                            <div class="label">MPN:</div>
+                            <div class="value">N/A</div>
+                            <div class="label">FLIX360MPNs:</div>
+                            <div class="value">None found</div>
+                            <div class="label">Language:</div>
+                            <div class="value">en-US</div>
+                            <div class="label">Details:</div>
+                            <div class="value">No MPN is found </div>
+                        </div>
+                        <div class="screenshots-container">
+                            
+                                <div class="screenshot-section">
+                                    <h3>Initial Load Screenshot:</h3>
+                                    <img class="screenshot"
+                                        src="././tests/screenshots/initial_15.png"
+                                        alt="Initial Load Screenshot"
+                                        onclick="window.open(this.src)"
+                                    >
+                                </div>
+                            
+                            
+                                <div class="screenshot-section">
+                                    <h3>Final Page Screenshot:</h3>
+                                    <img class="screenshot"
+                                        src="././tests/screenshots/final_15.png"
+                                        alt="Final Page Screenshot"
+                                        onclick="window.open(this.src)"
+                                    >
+                                </div>
+                            
+                        </div>
+                    </div>
+                
+                    <div class="result-card" data-status="error">
+                        <div class="result-header">
+                            <h2>URL #16</h2>
+                            <span class="status-badge status-error">Error</span>
+                        </div>
+                        <div class="result-details">
+                            <div class="label">URL:</div>
+                            <div class="value"><a href="https://www.vandenborre.be/fr/laptop-tablette-pc-ou-hybride-convertible/acer-aspire-3-a315-35-c1k2" target="_blank">https://www.vandenborre.be/fr/laptop-tablette-pc-ou-hybride-convertible/acer-aspire-3-a315-35-c1k2</a></div>
+                            <div class="label">MPN:</div>
+                            <div class="value">N/A</div>
+                            <div class="label">FLIX360MPNs:</div>
+                            <div class="value">None found</div>
+                            <div class="label">Language:</div>
+                            <div class="value">N/A</div>
+                            <div class="label">Details:</div>
+                            <div class="value">page.goto: net::ERR_CONNECTION_TIMED_OUT at https://www.vandenborre.be/fr/laptop-tablette-pc-ou-hybride-convertible/acer-aspire-3-a315-35-c1k2
+Call log:
+[2m  - navigating to "https://www.vandenborre.be/fr/laptop-tablette-pc-ou-hybride-convertible/acer-aspire-3-a315-35-c1k2", waiting until "domcontentloaded"[22m
+</div>
+                        </div>
+                        <div class="screenshots-container">
+                            
+                                <div class="screenshot-section">
+                                    <h3>Initial Load Screenshot:</h3>
+                                    <img class="screenshot"
+                                        src="././tests/screenshots/initial_16.png"
+                                        alt="Initial Load Screenshot"
+                                        onclick="window.open(this.src)"
+                                    >
+                                </div>
+                            
+                            
+                                <div class="screenshot-section">
+                                    <h3>Final Page Screenshot:</h3>
+                                    <img class="screenshot"
+                                        src="././tests/screenshots/final_16.png"
+                                        alt="Final Page Screenshot"
+                                        onclick="window.open(this.src)"
+                                    >
+                                </div>
+                            
+                        </div>
+                    </div>
+                
+                    <div class="result-card" data-status="error">
+                        <div class="result-header">
+                            <h2>URL #17</h2>
+                            <span class="status-badge status-error">Error</span>
+                        </div>
+                        <div class="result-details">
+                            <div class="label">URL:</div>
+                            <div class="value"><a href="https://www.vandenborre.be/fr/ecran-de-projection/acer-e100-w01mw-100aa-254-cm" target="_blank">https://www.vandenborre.be/fr/ecran-de-projection/acer-e100-w01mw-100aa-254-cm</a></div>
+                            <div class="label">MPN:</div>
+                            <div class="value">N/A</div>
+                            <div class="label">FLIX360MPNs:</div>
+                            <div class="value">None found</div>
+                            <div class="label">Language:</div>
+                            <div class="value">N/A</div>
+                            <div class="label">Details:</div>
+                            <div class="value">page.goto: net::ERR_CONNECTION_TIMED_OUT at https://www.vandenborre.be/fr/ecran-de-projection/acer-e100-w01mw-100aa-254-cm
+Call log:
+[2m  - navigating to "https://www.vandenborre.be/fr/ecran-de-projection/acer-e100-w01mw-100aa-254-cm", waiting until "domcontentloaded"[22m
+</div>
+                        </div>
+                        <div class="screenshots-container">
+                            
+                                <div class="screenshot-section">
+                                    <h3>Initial Load Screenshot:</h3>
+                                    <img class="screenshot"
+                                        src="././tests/screenshots/initial_17.png"
+                                        alt="Initial Load Screenshot"
+                                        onclick="window.open(this.src)"
+                                    >
+                                </div>
+                            
+                            
+                                <div class="screenshot-section">
+                                    <h3>Final Page Screenshot:</h3>
+                                    <img class="screenshot"
+                                        src="././tests/screenshots/final_17.png"
+                                        alt="Final Page Screenshot"
+                                        onclick="window.open(this.src)"
+                                    >
+                                </div>
+                            
+                        </div>
+                    </div>
+                
+            </div>
+        </div>
+
+        <script>
+            function applyFilters() {
+                const statusFilter = document.getElementById('statusFilter').value.toLowerCase();
+                
+                document.querySelectorAll('.result-card').forEach(card => {
+                    const status = card.getAttribute('data-status').toLowerCase();
+                    const statusMatch = statusFilter === 'all' || status === statusFilter;
+                    card.style.display = statusMatch ? 'block' : 'none';
+                });
+            }
+
+            document.getElementById('statusFilter').addEventListener('change', applyFilters);
+        </script>
+    </body>
+    </html>
