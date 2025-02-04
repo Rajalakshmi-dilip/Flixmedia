@@ -12,10 +12,8 @@ let missingElementResults = [];
 const screenshotsDir = path.join(__dirname, 'screenshots');
 if (!fs.existsSync(screenshotsDir)) {
     fs.mkdirSync(screenshotsDir);
-} else {
-    fs.readdirSync(screenshotsDir).forEach(file => fs.unlinkSync(path.join(screenshotsDir, file)));
-    console.log('All previous screenshots have been deleted.');
 }
+
 
 // MPN similarity calculation
 function calculateMPNSimilarity(originalMpn, apiMpn) {
